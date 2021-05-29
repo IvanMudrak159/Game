@@ -8,6 +8,8 @@ TagManager:
   - ScorePoint
   - Rocket
   - Bullet
+  - Room
+  - Sign
   layers:
   - Default
   - TransparentFX

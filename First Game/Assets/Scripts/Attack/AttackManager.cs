@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct lvl
 {
-	public int easy, medium, hard;
+	public GameObject route;
 	public int score;
 	public bool isDefault;
 }
@@ -15,7 +15,7 @@ public class AttackManager : MonoBehaviour
 	//Score
 	public int scorePoints = 0;
 	//Default shooting
-	private bool standart = true;
+	private bool standart = false;
 	public bool coroutineAllowed = true;
 	public List<Rigidbody> rocketsRigidbodies;
 	private float angle;
@@ -29,37 +29,34 @@ public class AttackManager : MonoBehaviour
 	private float radSpeed;
 	//Timer for default shooting
 	private float time = 0f;
-	private float timeStep = 0.1f;
+	public float defaultTimeStep = 0.1f;
 	private float saveTimeStep;
-	//Choosing route for shooting
-	#endregion
+	//Level content
 	public lvl[] lvls;
 	private int level = 0;
-	public List<GameObject> easyRoutes;
-	public List<GameObject> mediumRoutes;
-	public List<GameObject> hardRoutes;
-	public List<GameObject> temporaryRoutes;
-	private int lastChosenRoute = -1;
-	private int scoreStep = 8;
-	private int oldScorePoints = 0; 
+	#endregion
 	private void Start()
 	{
 		playerMovement = player.gameObject.GetComponent<PlayerMovement>();
-		saveTimeStep = timeStep;
+		saveTimeStep = defaultTimeStep;
 
 		//Give initial value to bullet speed
 		radSpeed = playerMovement.speedModifier * 3.14f;//0.1 speedModifier = 3.14 speed 
 		timeBullet = 500f / force;
 		speed = timeBullet * radSpeed;
+		if (lvls[level].route != null)
+		{
+			lvls[level].route.SetActive(true);
+		}
 	}
 	private void Update()
 	{
 		//Default shooting
 		if (standart)
 		{
-			if (time > timeStep)
+			if (time > defaultTimeStep)
 			{
-				timeStep += saveTimeStep;
+				defaultTimeStep += saveTimeStep;
 				if (coroutineAllowed)
 				{
 					StartCoroutine(C_Straight());
@@ -70,24 +67,16 @@ public class AttackManager : MonoBehaviour
 				time += Time.deltaTime;
 			}
 		}
-		else if (scorePoints % scoreStep == 0)
-		{
-			if(scorePoints != oldScorePoints)
-			{
-				oldScorePoints = scorePoints;
-				EnableRoute();
-			}
-		}
 		//Increase difficulty
 		if (scorePoints == lvls[level].score)
 		{
-			//ClearTemporaryRoute();
 			standart = false;
 			force += 10;
 			playerMovement.speedModifier += 0.003f;
 			radSpeed = playerMovement.speedModifier * 3.14f;
 			timeBullet = 500f / force;
 			speed = timeBullet * radSpeed;
+			lvls[level].route.SetActive(false);
 			if (level < lvls.Length)
 			{
 				level++;
@@ -99,60 +88,8 @@ public class AttackManager : MonoBehaviour
 			}
 			else
 			{
-				int random;
-				#region Add routes to list
-				for (int i = 0; i < lvls[level].easy; i++)
-				{
-					do
-					{
-						random = Random.Range(0, easyRoutes.Count);
-					} while (temporaryRoutes.Contains(easyRoutes[random]));
-					temporaryRoutes.Add(easyRoutes[random]);
-				}
-				for (int i = 0; i < lvls[level].medium; i++)
-				{
-					do
-					{
-						random = Random.Range(0, mediumRoutes.Count);
-					} while (temporaryRoutes.Contains(mediumRoutes[random]));
-					temporaryRoutes.Add(mediumRoutes[random]);
-				}
-				for (int i = 0; i < lvls[level].hard; i++)
-				{
-					do
-					{
-						random = Random.Range(0, hardRoutes.Count);
-					} while (temporaryRoutes.Contains(hardRoutes[random]));
-					temporaryRoutes.Add(hardRoutes[random]);
-				}
-				#endregion
-				EnableRoute();
+				lvls[level].route.SetActive(true);
 			}
-		}
-	}
-
-	private void EnableRoute()
-	{
-		if (lastChosenRoute == -1)
-		{
-			lastChosenRoute = Random.Range(0, temporaryRoutes.Count);
-		}
-		else
-		{
-			temporaryRoutes[lastChosenRoute].SetActive(false);
-			temporaryRoutes.Remove(temporaryRoutes[lastChosenRoute]);
-			lastChosenRoute = Random.Range(0, temporaryRoutes.Count);
-		}
-		temporaryRoutes[lastChosenRoute].SetActive(true);
-	}
-
-	private void ClearTemporaryRoute()
-	{
-		if (lastChosenRoute != -1)
-		{
-			temporaryRoutes[lastChosenRoute].SetActive(false);
-			lastChosenRoute = -1;
-			temporaryRoutes.Clear();
 		}
 	}
 
@@ -161,14 +98,14 @@ public class AttackManager : MonoBehaviour
 		coroutineAllowed = false;
 		int attackPlayer = 0;
 		int addRandom = 1;
-		int length = Random.Range(1, 4);
-		for (int i = 0; i < length; i++)
+		//int length = Random.Range(1, 4);
+		for (int i = 0; i < 1; i++)
 		{
 			if (rocketsRigidbodies.Count == 0)
 			{
 				break;
 			}
-			float probability = Random.Range(0, 11);
+			/*float probability = Random.Range(0, 11);
 			if(probability > 7)
 			{
 				attackPlayer = 1;
@@ -176,7 +113,7 @@ public class AttackManager : MonoBehaviour
 			if(probability > 4)
 			{
 				addRandom = 0;
-			}
+			}*/
 			float randomAngle = Random.Range(0.4f, 0.6f);
 			if (playerMovement.anotherSide == -1)
 			{

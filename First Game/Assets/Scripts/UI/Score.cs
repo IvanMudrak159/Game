@@ -15,8 +15,8 @@ public class Score : MonoBehaviour
 	[SerializeField] private GameObject scorePoint;
 	public PowerUpManager powerUpManager;
 	private int powerUpPermission = 7;
-	private int skipCounter = 0;
-	private bool isActive = false;
+	public int skipCounter = 0;
+	public bool isActive = false;
 	private void Start()
 	{
 		PlayerPrefs.GetInt("Money", 0);

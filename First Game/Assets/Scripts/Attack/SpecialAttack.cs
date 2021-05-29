@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class SpecialAttack : MonoBehaviour
 {
-	public float speedX = 50f;
+	public float bulletSpeed = 0.5f;
+	public float speed = 50f;
 	public BulletManager[] bulletsManagers;
 	public List<Transform> bullets;
 	public List<RouteDraw> NextPatternsInChain;
@@ -31,6 +32,7 @@ public class SpecialAttack : MonoBehaviour
 	{
 		for (int i = 0; i < bulletsManagers.Length; i++) //добавляем сами пути в массив routes
 		{
+			bulletsManagers[i].bulletSpeed = bulletSpeed;
 			bulletsManagers[i].routes.Clear();
 			for (int j = 0; j < NextPatternsInChain.Count; j++)
 			{
@@ -41,7 +43,7 @@ public class SpecialAttack : MonoBehaviour
 	}
 	void Update()
     {
-		transform.Rotate(Vector3.forward * Time.deltaTime * speedX);
+		transform.Rotate(Vector3.forward * Time.deltaTime * speed);
 		if (bullets.Count != 0)
 		{
 			time += Time.deltaTime;

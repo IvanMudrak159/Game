@@ -6,6 +6,7 @@ public class BulletManager : MonoBehaviour
 {
 	public List<RouteDraw> routes;
 	public List<SpecialAttackMove> children;
+	public float bulletSpeed;
 	public void Awake()
 	{
 		for (int i = 0; i < gameObject.transform.childCount; i++)
@@ -17,6 +18,7 @@ public class BulletManager : MonoBehaviour
 	{
 		for (int i = 0; i < children.Count; i++)
 		{
+			children[i].speedModifier = bulletSpeed;
 			children[i].routes.Clear();
 			for (int j = 0; j < routes.Count; j++)
 			{
