@@ -28,7 +28,6 @@ public class UpgradeDisplay : MonoBehaviour
 	}
 	private void Start()
 	{
-		money = PlayerPrefs.GetInt("Money");
 		moneyCount.text = money.ToString();
 		indexCounter = PlayerPrefs.GetInt(prefForSlider, 0);
 		Change();

@@ -44,7 +44,8 @@ public class AttackManager : MonoBehaviour
 		radSpeed = playerMovement.speedModifier * 3.14f;//0.1 speedModifier = 3.14 speed 
 		timeBullet = 500f / force;
 		speed = timeBullet * radSpeed;
-		if (lvls[level].route != null)
+		standart = lvls[level].isDefault;
+		if (lvls[level].route != null && !standart)
 		{
 			lvls[level].route.SetActive(true);
 		}
@@ -98,22 +99,22 @@ public class AttackManager : MonoBehaviour
 		coroutineAllowed = false;
 		int attackPlayer = 0;
 		int addRandom = 1;
-		//int length = Random.Range(1, 4);
-		for (int i = 0; i < 1; i++)
+		int length = Random.Range(1, 3);
+		for (int i = 0; i < length; i++)
 		{
 			if (rocketsRigidbodies.Count == 0)
 			{
 				break;
 			}
-			/*float probability = Random.Range(0, 11);
-			if(probability > 7)
+			float probability = Random.Range(0, 11);
+			if (probability > 6)
 			{
 				attackPlayer = 1;
 			}
-			if(probability > 4)
+			if (probability > 4)
 			{
 				addRandom = 0;
-			}*/
+			}
 			float randomAngle = Random.Range(0.4f, 0.6f);
 			if (playerMovement.anotherSide == -1)
 			{
@@ -121,7 +122,7 @@ public class AttackManager : MonoBehaviour
 			}
 			rocketsRigidbodies[0].velocity = Vector3.zero;
 			rocketsRigidbodies[0].gameObject.SetActive(true);
-			angle = Angle;
+			angle = Angle();
 			float a = (angle + playerMovement.anotherSide * speed * attackPlayer + randomAngle * addRandom) * 180 / pi;
 			Quaternion rotation = Quaternion.Euler(90, 0, a);
 			transform.rotation = rotation;
@@ -133,31 +134,28 @@ public class AttackManager : MonoBehaviour
 		}
 		coroutineAllowed = true;
 	}
-	private float Angle
+	private float Angle()
 	{
-		get
+		if (player.position.x >= 0)
 		{
-			if (player.position.x >= 0)
+			if (player.position.z >= 0)
 			{
-				if (player.position.z >= 0)
-				{
-					return Mathf.Atan2(player.position.z, player.position.x);
-				}
-				else
-				{
-					return Mathf.Atan2(player.position.z, player.position.x) + 2 * pi;
-				}
+				return Mathf.Atan2(player.position.z, player.position.x);
 			}
 			else
 			{
-				if (player.position.z >= 0)
-				{
-					return Mathf.Atan2(player.position.z, player.position.x);
-				}
-				else
-				{
-					return Mathf.Atan2(player.position.z, player.position.x) + 2 * pi;
-				}
+				return Mathf.Atan2(player.position.z, player.position.x) + 2 * pi;
+			}
+		}
+		else
+		{
+			if (player.position.z >= 0)
+			{
+				return Mathf.Atan2(player.position.z, player.position.x);
+			}
+			else
+			{
+				return Mathf.Atan2(player.position.z, player.position.x) + 2 * pi;
 			}
 		}
 	}

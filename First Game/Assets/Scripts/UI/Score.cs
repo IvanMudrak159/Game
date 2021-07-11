@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+	public delegate void powerUpAction();
+	public event powerUpAction powerUpSpawn;
+	public static Score scoreSingleton { get; private set; }
+	public UILineRenderer line;
 	public Transform[] routes;
 	public List<GameObject> points = new List<GameObject>();
 	public Text scoreText;
@@ -14,9 +18,13 @@ public class Score : MonoBehaviour
 	private AttackManager rocketPool;
 	[SerializeField] private GameObject scorePoint;
 	public PowerUpManager powerUpManager;
-	private int powerUpPermission = 7;
-	public int skipCounter = 0;
-	public bool isActive = false;
+	private int powerUpPermission = 2;
+	public int endScore;
+	public GameObject nextLevelPanel;
+	private void Awake()
+	{
+		scoreSingleton = this;
+	}
 	private void Start()
 	{
 		PlayerPrefs.GetInt("Money", 0);
@@ -28,32 +36,31 @@ public class Score : MonoBehaviour
 			points.Add(Instantiate(scorePoint));
 			points[i].SetActive(false);
 		}
+		SpawnCoins();
 	}
 	private void Update()
 	{
 		if (score > powerUpPermission)
 		{
-			powerUpPermission += 7;
-			if (Random.Range(0f, 10f) > 0)
-			{
-				powerUpManager.PowerUpPool();
-			}
-		}
-		if (!isActive)
-		{
-			int route = 0;
-			for (int i = 0; i < 8; i++)
-			{
-				if (i > 3)
-				{
-					route = 1;
-				}
-				points[i].transform.position = GetPos(route, i * 0.25f % 1);
-				points[i].SetActive(true);
-			}
-			isActive = true;
+			powerUpPermission += 3;
+			powerUpSpawn?.Invoke();
 		}
 	}
+
+	private void SpawnCoins()
+	{
+		int route = 0;
+		for (int i = 0; i < 8; i++)
+		{
+			if (i > 3)
+			{
+				route = 1;
+			}
+			points[i].transform.position = GetPos(route, i * 0.25f % 1);
+			points[i].SetActive(true);
+		}
+	}
+
 	public Vector3 GetPos(int route, float tParam)
 	{
 		Vector3 p0 = routes[route].GetChild(0).position;
@@ -70,7 +77,7 @@ public class Score : MonoBehaviour
 	{
 		rocketPool.scorePoints += scoreMultiplier;
 		score += scoreMultiplier;
-		scoreText.text = "Score: " + score.ToString("0");
+		scoreText.text = "Score: " + score.ToString() + "/" + endScore.ToString();
 	}
 	public void ShowHighScore()
 	{
@@ -84,18 +91,19 @@ public class Score : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("ScorePoint"))
 		{
-			skipCounter++;
-			//was made for skipping every 9-th scorePoint
-			if (skipCounter == 9)
-			{
-				skipCounter = 0;
-				return;
-			}
+			line.AddValue(1f, 1.5f);
 			AddScore();
 			other.gameObject.SetActive(false);
-			if (skipCounter == 8)
+			PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
+			if (score == endScore)
 			{
-				isActive = false;
+				Time.timeScale = 0f;
+				nextLevelPanel.SetActive(true);
+				PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+			}
+			if (score % 8 == 0)
+			{
+				SpawnCoins();
 			}
 		}
 	}

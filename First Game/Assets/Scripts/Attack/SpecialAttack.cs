@@ -7,18 +7,17 @@ public class SpecialAttack : MonoBehaviour
 	public float speed = 50f;
 	public BulletManager[] bulletsManagers;
 	public List<Transform> bullets;
-	public List<RouteDraw> NextPatternsInChain;
+	public List<Transform> NextPatternsInChain;
 	public float time = 0f;
 	public float timeStep = 1f;
 	private float saveTimeStep;
-	private int counter = 0;
 	public int numberOfBullets = 4;
-	private int bulletCounter = 0;
 	public int bulletLimit = 4;
 
 	private void Awake()
 	{
-		NextPatternsInChain.Insert(0, GetComponent<RouteDraw>());
+		Score.scoreSingleton.powerUpSpawn += AddPowerUp;
+		NextPatternsInChain.Insert(0, GetComponent<Transform>());
 		saveTimeStep = timeStep;
 		for (int i = 0; i < bulletsManagers.Length; i++)
 		{
@@ -48,30 +47,25 @@ public class SpecialAttack : MonoBehaviour
 		{
 			time += Time.deltaTime;
 		}
-
-		/*if (bulletCounter == bulletLimit)
-		{
-			bulletCounter = 0;
-			time -= 1f;
-		}*/
 		if (time > timeStep)
 		{
 			if (bullets[0].gameObject.activeSelf)
 			{
 				bullets.Add(bullets[0]);//dunno why this works
 			}
-			bulletCounter++;
 			timeStep += saveTimeStep;
 			bullets[0].gameObject.SetActive(true);
 			bullets.Remove(bullets[0]);
 		}
 	}
-	public void Decrease()
+	private void AddPowerUp()
 	{
-		if(counter < 5)
-		{
-			saveTimeStep -= saveTimeStep * 0.05f;
-			counter++;
-		}
+		Transform powerUp = PowerUpManager.powerUpManager.PowerUpPool();
+		SpecialAttackMove specialAttackMove = powerUp.GetComponent<SpecialAttackMove>();
+		specialAttackMove.routes.Clear();
+		specialAttackMove.speedModifier = bulletSpeed;
+		specialAttackMove.routes.Add(this.transform);
+		specialAttackMove.isPowerUp = true;
+		bullets.Insert(0,powerUp);
 	}
 }

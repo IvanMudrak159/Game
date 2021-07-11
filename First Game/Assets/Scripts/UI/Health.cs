@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Health : MonoBehaviour
 {
+	public UILineRenderer line;
 	public Animation playerAnimation;
 	public PowerUpManager powerUpManager;
 	public GameObject deathPanel;
@@ -21,6 +22,7 @@ public class Health : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Bullet") && !protectEnabled)
 		{
+			line.AddValue(1f, -1.5f);
 			Vibration.Vibrate(100);
 			health--;
 			healthText.text = "HP: " + health;

@@ -5,6 +5,6 @@ public class MoneyPowerUp : PowerUp
 	protected override void Action()
 	{
 		PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + addMoney);
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 }

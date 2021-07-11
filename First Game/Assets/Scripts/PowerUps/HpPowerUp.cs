@@ -5,6 +5,6 @@
 	{
 		health.health++;
 		health.healthText.text = "HP: " + health.health;
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 }

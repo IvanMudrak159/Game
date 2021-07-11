@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
 {
+	public static PowerUpManager powerUpManager { get; private set; }
 	public PlayerMovement playerMovement;
 	public List<GameObject> powerUps;
 	public List<GameObject> savePowerUps;
@@ -11,24 +12,26 @@ public class PowerUpManager : MonoBehaviour
 	private int chosenRoute;
 	public void Awake()
 	{
+		powerUpManager = this;
 		for (int i = 0; i < powerUps.Count; i++)
 		{
 			savePowerUps.Add(powerUps[i]);
 		}
 	}
-	public void PowerUpPool()
+	public Transform PowerUpPool()
 	{
-		if(powerUps.Count == 0)
-		{
-			for (int i = 0; i < savePowerUps.Count; i++)
-			{
-				powerUps.Add(savePowerUps[i]);
-			}
-		}
+		//if(powerUps.Count == 0)
+		//{
+		//	for (int i = 0; i < savePowerUps.Count; i++)
+		//	{
+		//		powerUps.Add(savePowerUps[i]);
+		//	}
+		//}
 		randomIndex = Random.Range(0, powerUps.Count);
-		powerUps[randomIndex].transform.position = GetPos();
-		powerUps[randomIndex].SetActive(true);
-		powerUps.RemoveAt(randomIndex);
+		//powerUps[randomIndex].transform.position = GetPos();
+		//powerUps[randomIndex].SetActive(true);
+		//powerUps.RemoveAt(randomIndex);
+		return Instantiate(powerUps[randomIndex]).transform;
 	}
 	protected Vector3 GetPos()
 	{
