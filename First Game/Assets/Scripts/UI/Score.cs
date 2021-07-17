@@ -21,6 +21,7 @@ public class Score : MonoBehaviour
 	private int powerUpPermission = 2;
 	public int endScore;
 	public GameObject nextLevelPanel;
+	private int scoreLimit = 8;
 	private void Awake()
 	{
 		scoreSingleton = this;
@@ -95,14 +96,15 @@ public class Score : MonoBehaviour
 			AddScore();
 			other.gameObject.SetActive(false);
 			PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
-			if (score == endScore)
+			if (score >= endScore)
 			{
 				Time.timeScale = 0f;
 				nextLevelPanel.SetActive(true);
 				PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 			}
-			if (score % 8 == 0)
+			if (score >= scoreLimit)
 			{
+				scoreLimit += 8;
 				SpawnCoins();
 			}
 		}

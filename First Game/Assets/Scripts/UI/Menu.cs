@@ -7,12 +7,13 @@ public class Menu : MonoBehaviour
 	public GameObject pausePanel;
 	public GameObject MenuCanvas;
 	public GameObject GameCanvas;
+	public GameObject SwitchGameObject;
+	public Text InformationText;
 	public Text MoneyPanel;
 	public Text HighscoreText;
 	private int click = 0;
 	private void Awake()
 	{
-		//PlayerPrefs.SetInt("Level", 0);
 		PlayerPrefs.GetInt("Level", 0);
 		Time.timeScale = 0;
 		if (MoneyPanel != null)
@@ -37,6 +38,14 @@ public class Menu : MonoBehaviour
 			Time.timeScale = 1;
 			pausePanel.SetActive(false);
 		}
+	}
+	public void SetText(string text)
+	{
+		InformationText.text = text;
+	}
+	public void EnableGameObject(bool enable)
+	{
+		SwitchGameObject.SetActive(enable);
 	}
 	public void ExitButton()
 	{

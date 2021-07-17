@@ -15,6 +15,7 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 	public UnityEvent onTabSelected;
 	public UnityEvent onTabDeselected;
 
+	public Color IdleColor;
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		tabGroup.OnTabSelected(this);
@@ -33,6 +34,7 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 	void Awake()
     {
         background = GetComponent<Image>();
+		IdleColor = background.color;
         tabGroup.Subscribe(this);
     }
 	public void Select()

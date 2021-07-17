@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TabGroup : MonoBehaviour
 {
+	public Color ActiveColor;
     public List<TabButton> tabButtons;
 	public Sprite tabIdle;
 	public Sprite tabHover;
@@ -45,6 +46,7 @@ public class TabGroup : MonoBehaviour
 		selectedTab.Select();
 		ResetTabs();
 		button.background.sprite = tabActive;
+		button.background.color = ActiveColor;
 		int index = button.transform.GetSiblingIndex();
 		for (int i = 0; i < objectsToSwap.Count; i++)
 		{
@@ -64,9 +66,11 @@ public class TabGroup : MonoBehaviour
 		{
 			if(selectedTab != null && button == selectedTab)
 			{
+				button.background.color = ActiveColor;
 				continue;
 			}
 			button.background.sprite = tabIdle;
+			button.background.color = button.IdleColor;
 		}
 	}
 }

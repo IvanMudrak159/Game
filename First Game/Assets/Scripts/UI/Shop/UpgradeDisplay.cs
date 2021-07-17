@@ -16,8 +16,6 @@ public class UpgradeDisplay : MonoBehaviour
     public Image powerUpImage;
 	public Text priceText;
 	public Slider progressSlider;
-	public Slider backgroundSlider;
-	public Text backgroundText;
 	public Button buyButton;
 
 	private int indexCounter;
@@ -28,7 +26,7 @@ public class UpgradeDisplay : MonoBehaviour
 	}
 	private void Start()
 	{
-		moneyCount.text = money.ToString();
+		moneyCount.text = "Money: " + money.ToString();
 		indexCounter = PlayerPrefs.GetInt(prefForSlider, 0);
 		Change();
 	}
@@ -38,7 +36,7 @@ public class UpgradeDisplay : MonoBehaviour
 		{
 			PlayerPrefs.SetInt("Money", money - prices[indexCounter]);
 			money = PlayerPrefs.GetInt("Money");
-			moneyCount.text = money.ToString();
+			moneyCount.text = "Money: " + money.ToString();
 			indexCounter++;
 			PlayerPrefs.SetFloat(prefPowerUpName, upgratedValues[indexCounter]);
 			PlayerPrefs.SetInt(prefForSlider, indexCounter);
@@ -49,8 +47,6 @@ public class UpgradeDisplay : MonoBehaviour
 	{
 		priceText.text = prices[indexCounter].ToString();
 		progressSlider.value = 0.167f * indexCounter;
-		backgroundSlider.value = 0.167f * (indexCounter + 1);
-		backgroundText.text = "+ " + upgratedValues[indexCounter];
 		if(indexCounter == 6)
 		{
 			priceText.text = "Upgrade Completed!";

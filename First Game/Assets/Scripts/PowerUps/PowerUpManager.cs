@@ -1,50 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PowerUpManager : MonoBehaviour
 {
-	public static PowerUpManager powerUpManager { get; private set; }
-	public PlayerMovement playerMovement;
-	public List<GameObject> powerUps;
-	public List<GameObject> savePowerUps;
-	public Transform[] routes;
+	[HideInInspector] public static PowerUpManager powerUpManager { get; private set; }
+
+	public PowerUp[] powerUps;
+	public Sprite[] powerUpSprites;
+
+	public Image timerSprite;
+
 	private int randomIndex;
-	private int chosenRoute;
 	public void Awake()
 	{
 		powerUpManager = this;
-		for (int i = 0; i < powerUps.Count; i++)
+		for (int i = 0; i < powerUps.Length; i++)
 		{
-			savePowerUps.Add(powerUps[i]);
+			powerUps[i].Index = i;
 		}
 	}
 	public Transform PowerUpPool()
 	{
-		//if(powerUps.Count == 0)
-		//{
-		//	for (int i = 0; i < savePowerUps.Count; i++)
-		//	{
-		//		powerUps.Add(savePowerUps[i]);
-		//	}
-		//}
-		randomIndex = Random.Range(0, powerUps.Count);
-		//powerUps[randomIndex].transform.position = GetPos();
-		//powerUps[randomIndex].SetActive(true);
-		//powerUps.RemoveAt(randomIndex);
-		return Instantiate(powerUps[randomIndex]).transform;
+		randomIndex = Random.Range(0, powerUps.Length);
+		PowerUp go = Instantiate(powerUps[randomIndex]);
+		go.Index = randomIndex;
+		return go.transform;
 	}
-	protected Vector3 GetPos()
+	public void Timer(int index, float lifeTime)
 	{
-		chosenRoute = 1 - playerMovement.routeToGo;
-		Vector3 p0 = routes[chosenRoute].GetChild(0).position;
-		Vector3 p1 = routes[chosenRoute].GetChild(1).position;
-		Vector3 p2 = routes[chosenRoute].GetChild(2).position;
-		Vector3 p3 = routes[chosenRoute].GetChild(3).position;
-		float tParam = playerMovement.tParam;
-		Vector3 pos = Mathf.Pow(1 - tParam, 3) * p0 +
-				3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
-				3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
-				Mathf.Pow(tParam, 3) * p3;
-		return pos;
+		if(lifeTime ==0 || index == -1)
+		{
+			return;
+		}
+		timerSprite.transform.parent.gameObject.SetActive(true);
+		timerSprite.sprite = powerUpSprites[index];
+		StartCoroutine(C_Timer(lifeTime));
+	}
+	private IEnumerator C_Timer(float lifeTime)
+	{
+		yield return new WaitForSeconds(lifeTime);
+		timerSprite.transform.parent.gameObject.SetActive(false);
 	}
 }

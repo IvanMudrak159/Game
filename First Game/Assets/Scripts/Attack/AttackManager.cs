@@ -19,7 +19,7 @@ public class AttackManager : MonoBehaviour
 	public bool coroutineAllowed = true;
 	public List<Rigidbody> rocketsRigidbodies;
 	private float angle;
-	private PlayerMovement playerMovement;
+	public PlayerMovement playerMovement;
 	private const float pi = 3.14f;
 	[SerializeField] private Transform player;
 	//Variables for calculating speed of the default bullets
@@ -37,7 +37,6 @@ public class AttackManager : MonoBehaviour
 	#endregion
 	private void Start()
 	{
-		playerMovement = player.gameObject.GetComponent<PlayerMovement>();
 		saveTimeStep = defaultTimeStep;
 
 		//Give initial value to bullet speed
@@ -116,14 +115,14 @@ public class AttackManager : MonoBehaviour
 				addRandom = 0;
 			}
 			float randomAngle = Random.Range(0.4f, 0.6f);
-			if (playerMovement.anotherSide == -1)
+			if (playerMovement.AnotherSide == -1)
 			{
 				randomAngle *= -1;
 			}
 			rocketsRigidbodies[0].velocity = Vector3.zero;
 			rocketsRigidbodies[0].gameObject.SetActive(true);
 			angle = Angle();
-			float a = (angle + playerMovement.anotherSide * speed * attackPlayer + randomAngle * addRandom) * 180 / pi;
+			float a = (angle + playerMovement.AnotherSide * speed * attackPlayer + randomAngle * addRandom) * 180 / pi;
 			Quaternion rotation = Quaternion.Euler(90, 0, a);
 			transform.rotation = rotation;
 			rocketsRigidbodies[0].AddForce(transform.right * force);
