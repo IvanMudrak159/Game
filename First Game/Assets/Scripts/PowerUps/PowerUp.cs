@@ -1,35 +1,32 @@
 ﻿using System.Collections;
 using UnityEngine;
+[RequireComponent(typeof(MeshRenderer))]
 public class PowerUp : MonoBehaviour
 {
-	public Vector3 position;
-	public float lifeTime;
-	private bool isActive = false;
-	private void OnEnable()
-	{
-		isActive = false;
-		StartCoroutine(LifeTimer());
+	public PowerUpManager powerUpManager;
+	[HideInInspector] public float lifeTime = 0;
+	private int index = -1;
+
+	public int Index { get => index;
+		set
+		{
+			if(index == -1)
+			{
+				index = value;
+			}
+		}
 	}
 	protected void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player"))
 		{
-			isActive = true;
-			transform.position = position;
+			MeshRenderer mesh = GetComponent<MeshRenderer>();
+			mesh.enabled = false;	
+			powerUpManager.Timer(Index, lifeTime);
 			Action();
 		}
 	}
-	protected IEnumerator LifeTimer()
-	{
-		yield return new WaitForSeconds(lifeTime);
-		Switch();
-	}
-	private void Switch()
-	{
-		gameObject.SetActive(isActive);
-	}
 	protected virtual void Action()
 	{
-
 	}
 }

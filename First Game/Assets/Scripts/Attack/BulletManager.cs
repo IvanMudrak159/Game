@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-	public List<RouteDraw> routes;
+	public List<Transform> routes;
 	public List<SpecialAttackMove> children;
 	public float bulletSpeed;
 	public void Awake()
@@ -24,6 +24,13 @@ public class BulletManager : MonoBehaviour
 			{
 				children[i].routes.Add(routes[j]);
 			}
+		}
+	}
+	public void ChangeSpeed(float speed)
+	{
+		for (int i = 0; i < children.Count; i++)
+		{
+			children[i].speedModifier = speed;
 		}
 	}
 }

@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 public class MoneyPowerUp : PowerUp
 {
-	public int addMoney;
+	private int addMoney;
+	private void Awake()
+	{
+		addMoney = PlayerPrefs.GetInt("AddMoney", 5);
+	}
 	protected override void Action()
 	{
 		PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + addMoney);
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 }
