@@ -9,6 +9,11 @@ public class SpecialAttackMove : MonoBehaviour
 	public List<Transform> routes;
 	private float tParam = 0f;
 	public float speedModifier = 0.3f;
+	private TrailRenderer trail;
+	private void Awake()
+	{
+		trail = GetComponent<TrailRenderer>();
+	}
 	private IEnumerator GoByRoute()
 	{
 		int routeNumber = 0;
@@ -32,9 +37,11 @@ public class SpecialAttackMove : MonoBehaviour
 			tParam = 0;
 			routeNumber++;
 		}
-		if (!isPowerUp) { 
-		autoAttack.bullets.Add(transform);
-		gameObject.SetActive(false);
+		if (!isPowerUp)
+		{
+			trail.Clear();
+			autoAttack.bullets.Add(transform);
+			gameObject.SetActive(false);
 		}
 		else
 		{

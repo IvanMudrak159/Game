@@ -13,10 +13,10 @@ public class AttackManager : MonoBehaviour
 {
 	#region Variables
 	//Score
-	public int scorePoints = 0;
+	[HideInInspector] public int scorePoints = 0;
 	//Default shooting
 	private bool standart = false;
-	public bool coroutineAllowed = true;
+	private bool coroutineAllowed = true;
 	public List<Rigidbody> rocketsRigidbodies;
 	private float angle;
 	public PlayerMovement playerMovement;

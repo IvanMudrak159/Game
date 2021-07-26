@@ -4,7 +4,7 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
 	public PowerUpManager powerUpManager;
-	[HideInInspector] public float lifeTime = 0;
+	protected float lifeTime = 0;
 	private int index = -1;
 
 	public int Index { get => index;
@@ -21,8 +21,11 @@ public class PowerUp : MonoBehaviour
 		if (other.CompareTag("Player"))
 		{
 			MeshRenderer mesh = GetComponent<MeshRenderer>();
-			mesh.enabled = false;	
-			powerUpManager.Timer(Index, lifeTime);
+			mesh.enabled = false;
+			if (lifeTime != 0)
+			{
+				powerUpManager.Timer(Index, lifeTime);
+			}
 			Action();
 		}
 	}

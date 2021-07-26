@@ -14,6 +14,7 @@ public class Menu : MonoBehaviour
 	private int click = 0;
 	private void Awake()
 	{
+		Application.targetFrameRate = 60;
 		PlayerPrefs.GetInt("Level", 0);
 		Time.timeScale = 0;
 		if (MoneyPanel != null)

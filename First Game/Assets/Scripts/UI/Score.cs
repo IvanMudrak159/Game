@@ -4,23 +4,30 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+	public static Score scoreSingleton { get; private set; }
 	public delegate void powerUpAction();
 	public event powerUpAction powerUpSpawn;
-	public static Score scoreSingleton { get; private set; }
+
 	public UILineRenderer line;
+
 	public Transform[] routes;
 	public List<GameObject> points = new List<GameObject>();
+
 	public Text scoreText;
 	public Text highScoreText;
+
 	public GameObject rocketManager;
+
 	public int score = 0;
 	public int scoreMultiplier = 1;
+	public int finalScore;
+
+	public GameObject nextLevelPanel;
+	public PowerUpManager powerUpManager;
+
 	private AttackManager rocketPool;
 	[SerializeField] private GameObject scorePoint;
-	public PowerUpManager powerUpManager;
 	private int powerUpPermission = 2;
-	public int endScore;
-	public GameObject nextLevelPanel;
 	private int scoreLimit = 8;
 	private void Awake()
 	{
@@ -78,7 +85,7 @@ public class Score : MonoBehaviour
 	{
 		rocketPool.scorePoints += scoreMultiplier;
 		score += scoreMultiplier;
-		scoreText.text = "Score: " + score.ToString() + "/" + endScore.ToString();
+		scoreText.text = "Score: " + score.ToString() + "/" + finalScore.ToString();
 	}
 	public void ShowHighScore()
 	{
@@ -96,7 +103,7 @@ public class Score : MonoBehaviour
 			AddScore();
 			other.gameObject.SetActive(false);
 			PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
-			if (score >= endScore)
+			if (score >= finalScore)
 			{
 				Time.timeScale = 0f;
 				nextLevelPanel.SetActive(true);

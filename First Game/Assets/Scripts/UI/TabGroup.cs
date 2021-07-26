@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TabGroup : MonoBehaviour
 {
-	public Color ActiveColor;
     public List<TabButton> tabButtons;
 	public Sprite tabIdle;
 	public Sprite tabHover;
 	public Sprite tabActive;
 	public TabButton selectedTab;
 	public List<GameObject> objectsToSwap;
+	public List<GameObject> buyButtons;
 	public void Start()
 	{
 		ResetTabs();
@@ -46,17 +46,19 @@ public class TabGroup : MonoBehaviour
 		selectedTab.Select();
 		ResetTabs();
 		button.background.sprite = tabActive;
-		button.background.color = ActiveColor;
+		button.background.color = button.ActiveColor;
 		int index = button.transform.GetSiblingIndex();
 		for (int i = 0; i < objectsToSwap.Count; i++)
 		{
 			if (i == index)
 			{
 				objectsToSwap[i].SetActive(true);
+				//buyButtons[i].SetActive(true);
 			}
 			else
 			{
 				objectsToSwap[i].SetActive(false);
+				buyButtons[i].SetActive(false);
 			}
 		}
 	}
@@ -66,7 +68,7 @@ public class TabGroup : MonoBehaviour
 		{
 			if(selectedTab != null && button == selectedTab)
 			{
-				button.background.color = ActiveColor;
+				button.background.color = button.ActiveColor;
 				continue;
 			}
 			button.background.sprite = tabIdle;

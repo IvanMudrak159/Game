@@ -9,12 +9,14 @@ public class Health : MonoBehaviour
 	public PowerUpManager powerUpManager;
 	public GameObject deathPanel;
 	public Text healthText;
-	public int health = 5;
+	[HideInInspector] public int health;
 	public bool protectEnabled = false;
 	private float timeOfProtection = 1f;
+	public ParticleSystem particleSystem;
 
 	private void Awake()
 	{
+		health = (int)PlayerPrefs.GetFloat("Health", 4);
 		healthText.text = "HP: " + health;
 	}
 
@@ -22,6 +24,7 @@ public class Health : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Bullet") && !protectEnabled)
 		{
+			StartCoroutine(C_EnableParticle());	
 			line.AddValue(1f, -1.5f);
 			Vibration.Vibrate(100);
 			health--;
@@ -43,7 +46,12 @@ public class Health : MonoBehaviour
 			}
 		}
 	}
-
+	public IEnumerator C_EnableParticle()
+	{
+		particleSystem.Play();
+		yield return new WaitForSeconds(0.1f);
+		particleSystem.Stop();
+	}
 	public IEnumerator C_EnableProtection(float lifeTime)
 	{
 		playerAnimation.Play();

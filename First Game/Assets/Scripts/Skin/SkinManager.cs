@@ -17,8 +17,8 @@ public class SkinManager : MonoBehaviour
     [SerializeField] public Skin[] skins;
 	[SerializeField] private GameObject buyButton;
 	[SerializeField] private Text moneyText;
-	private const string Prefix = "Skin_";
-    private const string SelectedSkin = "SelectedSKin";
+	public string Prefix;
+    public string SelectedSkin;
 	private int lastSelectedSkin = 0;
 
 	private void Start()
@@ -42,7 +42,7 @@ public class SkinManager : MonoBehaviour
 			selectButtons[skinIndex].color = color;
 			selectButtons[skinIndex].transform.GetChild(0).gameObject.SetActive(false);
 	}
-
+		
 	public void SelectSkin(int skinIndex) => PlayerPrefs.SetInt(SelectedSkin, skinIndex);
 	public void OnSkinPressed(int skinIndex)
 	{
@@ -64,7 +64,7 @@ public class SkinManager : MonoBehaviour
 	public void OnBuyButtonPressed()
 	{
 		int coins = PlayerPrefs.GetInt("Money", 0);
-
+		Debug.Log(Prefix + lastSelectedSkin + "= " + PlayerPrefs.GetInt(Prefix + lastSelectedSkin, 0));
 		//Unlock the skin
 		if (coins >= skins[lastSelectedSkin].cost && !IsUnlocked(lastSelectedSkin))
 		{
