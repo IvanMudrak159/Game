@@ -4923,6 +4923,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3eb79ca2db37b0b4980a4e6fc56cf419, type: 3}
   - {fileID: 2800000, guid: 020a46fef9835444d90050eb4ecba89d, type: 3}
   - {fileID: 2800000, guid: a7525b3a8eca9c34d84cb6c17177874b, type: 3}
+  materials: []
+  isMaterial: 0
 --- !u!1 &8161723953164483713
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,6 +4981,7 @@ GameObject:
   - component: {fileID: 8161723953622853325}
   - component: {fileID: 8161723953622853324}
   - component: {fileID: 8161723953622853315}
+  - component: {fileID: 3365067346325955689}
   - component: {fileID: 8161723953622853320}
   - component: {fileID: 8161723953622853326}
   - component: {fileID: 8161723953622853327}
@@ -5059,6 +5062,102 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!82 &3365067346325955689
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8161723953622853312}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ba0464969396ff240a9356712d2366c5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &8161723953622853320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5086,6 +5185,7 @@ MonoBehaviour:
   powerUpManager: {fileID: 0}
   scorePoint: {fileID: 1812017189704784809, guid: ab35a0328524c644b99a2a8261af411f,
     type: 3}
+  win: {fileID: 8300000, guid: c1892ecc56308c147a1adee906de51f3, type: 3}
 --- !u!114 &8161723953622853326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,13 +5199,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 0}
-  playerAnimation: {fileID: 8161723953622853321}
   powerUpManager: {fileID: 0}
   deathPanel: {fileID: 0}
   healthText: {fileID: 0}
   health: 0
   protectEnabled: 0
   particleSystem: {fileID: 1689664040}
+  menu: {fileID: 0}
+  death: {fileID: 8300000, guid: cac2d015d7402224aaa2141414a50c1d, type: 3}
+  hit: {fileID: 8300000, guid: 839940930d159c14682043064f53b97e, type: 3}
 --- !u!54 &8161723953622853327
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5165,12 +5267,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: PlayerSkin
   material: {fileID: 2100000, guid: 611bcb5c96433dd439810a92bc6d9075, type: 2}
-  textures:
-  - {fileID: 2800000, guid: 7d378f42d32ca36449a01d9e52819473, type: 3}
-  - {fileID: 2800000, guid: e85a35a6d43171e4f91c5a99dee89de2, type: 3}
-  - {fileID: 2800000, guid: f9feef8f938739c46bacfa70045e6f05, type: 3}
-  - {fileID: 2800000, guid: 63dcb4a1b0002fc4ea813d7018bc127b, type: 3}
-  - {fileID: 2800000, guid: 7d94c57877fd89942a0601351fc582dc, type: 3}
+  textures: []
+  materials:
+  - {fileID: 2100000, guid: 022ebfd9bbf118f408474fedfaea410a, type: 2}
+  - {fileID: 2100000, guid: 09620f338672a2e47a238466f535f745, type: 2}
+  - {fileID: 2100000, guid: 20e6ffec353963648b507ed3a22aa47f, type: 2}
+  - {fileID: 2100000, guid: a8c160ada1d30ee4aacfb86b0b239297, type: 2}
+  - {fileID: 2100000, guid: 8c9d15072d43bce4c908037863579d50, type: 2}
+  isMaterial: 1
 --- !u!1 &8161723953746793332
 GameObject:
   m_ObjectHideFlags: 0

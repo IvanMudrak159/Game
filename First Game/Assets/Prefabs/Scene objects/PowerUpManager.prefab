@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPowerUp: 1
   routes: []
+  positions: []
   speedModifier: 0.3
 --- !u!65 &1050916088622221886
 BoxCollider:
@@ -197,10 +198,10 @@ MonoBehaviour:
   - {fileID: 9212456827862432677}
   - {fileID: 1050916089187135219}
   powerUpSprites:
-  - {fileID: 21300000, guid: e93808eb892be604b8ea6e624d5765f8, type: 3}
-  - {fileID: 21300000, guid: 2dcf5e9797491e04b86ce1481fd97c97, type: 3}
-  - {fileID: 21300000, guid: dc236417d95a11c4d86567285df258c4, type: 3}
-  - {fileID: 21300000, guid: 58b513fb4c0d9154e93f5686694a7bd0, type: 3}
+  - {fileID: 21300000, guid: 0d44ca2cd4b0d654aafa909e82d28d97, type: 3}
+  - {fileID: 21300000, guid: 9fb3da82b4109cc43b172120299093b6, type: 3}
+  - {fileID: 21300000, guid: 643237602f0338348b1171545959bcef, type: 3}
+  - {fileID: 21300000, guid: c1ae1b04ad0923940a43fae214ae35d0, type: 3}
   timerSprite: {fileID: 0}
 --- !u!1 &1050916089187135228
 GameObject:
@@ -318,6 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPowerUp: 1
   routes: []
+  positions: []
   speedModifier: 0.3
 --- !u!114 &1050916089187135219
 MonoBehaviour:
@@ -473,6 +475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPowerUp: 1
   routes: []
+  positions: []
   speedModifier: 0.3
 --- !u!111 &5646705576155982404
 Animation:
@@ -603,6 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPowerUp: 1
   routes: []
+  positions: []
   speedModifier: 0.3
 --- !u!65 &9212456827862432679
 BoxCollider:

@@ -64,7 +64,10 @@ public class SpecialAttack : MonoBehaviour
 		SpecialAttackMove specialAttackMove = powerUp.GetComponent<SpecialAttackMove>();
 		specialAttackMove.routes.Clear();
 		specialAttackMove.speedModifier = bulletSpeed;
-		specialAttackMove.routes.Add(this.transform);
+		foreach(Transform pattern in NextPatternsInChain)
+		{
+			specialAttackMove.routes.Add(pattern);	
+		}
 		specialAttackMove.isPowerUp = true;
 		bullets.Insert(0,powerUp);
 	}

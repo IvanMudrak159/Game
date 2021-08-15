@@ -127,6 +127,7 @@ public class AttackManager : MonoBehaviour
 			transform.rotation = rotation;
 			rocketsRigidbodies[0].AddForce(transform.right * force);
 			rocketsRigidbodies.Remove(rocketsRigidbodies[0]);
+			//Debug.Log("Rocket[" + rocketsRigidbodies[0].gameObject + "has been removed");
 			attackPlayer = 0;
 			addRandom = 1;
 			yield return new WaitForSeconds(0.115f);

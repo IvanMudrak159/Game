@@ -53,7 +53,6 @@ public class TabGroup : MonoBehaviour
 			if (i == index)
 			{
 				objectsToSwap[i].SetActive(true);
-				//buyButtons[i].SetActive(true);
 			}
 			else
 			{

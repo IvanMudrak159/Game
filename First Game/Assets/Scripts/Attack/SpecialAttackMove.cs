@@ -7,6 +7,7 @@ public class SpecialAttackMove : MonoBehaviour
 	public bool isPowerUp = false;
 	private SpecialAttack autoAttack; 
 	public List<Transform> routes;
+	public List<Vector3> positions;
 	private float tParam = 0f;
 	public float speedModifier = 0.3f;
 	private TrailRenderer trail;
@@ -20,10 +21,15 @@ public class SpecialAttackMove : MonoBehaviour
 		while (routeNumber != routes.Count)
 		{
 			Vector3 p0, p1, p2, p3;
-			p0 = routes[routeNumber].GetChild(0).position;
-			p1 = routes[routeNumber].GetChild(1).position;
-			p2 = routes[routeNumber].GetChild(2).position;
-			p3 = routes[routeNumber].GetChild(3).position;
+			p0 = positions[0];
+			p1 = positions[1];
+			p2 = positions[2];
+			p3 = positions[3];
+			positions.RemoveAt(0);
+			positions.RemoveAt(0);
+			positions.RemoveAt(0);
+			positions.RemoveAt(0);
+
 			transform.position = p0 + 3 * p1 + 3 * p2 + p3;
 			while (tParam <= 1)
 			{
@@ -53,6 +59,13 @@ public class SpecialAttackMove : MonoBehaviour
 		if (routes.Count != 0)
 		{
 			autoAttack = routes[0].GetComponent<SpecialAttack>();
+			for (int i = 0; i < routes.Count; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					positions.Add(routes[i].GetChild(j).position);
+				}
+			}
 			StartCoroutine(GoByRoute());
 		}
 	}

@@ -27,8 +27,13 @@ public class Score : MonoBehaviour
 
 	private AttackManager rocketPool;
 	[SerializeField] private GameObject scorePoint;
-	private int powerUpPermission = 2;
+	private int powerUpPermission = 5;
 	private int scoreLimit = 8;
+
+	[Header("Sounds")]
+	public AudioClip win;
+	public AudioClip coin;
+	private AudioSource audio;
 	private void Awake()
 	{
 		scoreSingleton = this;
@@ -38,6 +43,7 @@ public class Score : MonoBehaviour
 		PlayerPrefs.GetInt("Money", 0);
 		PlayerPrefs.GetInt("HighScore", 0);
 
+		audio = GetComponent<AudioSource>();
 		rocketPool = rocketManager.GetComponent<AttackManager>();
 		for (int i = 0; i < 8; i++)
 		{
@@ -50,7 +56,7 @@ public class Score : MonoBehaviour
 	{
 		if (score > powerUpPermission)
 		{
-			powerUpPermission += 3;
+			powerUpPermission += 10;
 			powerUpSpawn?.Invoke();
 		}
 	}
@@ -99,17 +105,21 @@ public class Score : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("ScorePoint"))
 		{
+			audio.clip = coin;
+			audio.Play();
 			line.AddValue(1f, 1.5f);
 			AddScore();
 			other.gameObject.SetActive(false);
-			PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
 			if (score >= finalScore)
 			{
+				audio.clip = win;
+				audio.Play();
+				PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
 				Time.timeScale = 0f;
 				nextLevelPanel.SetActive(true);
 				PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 			}
-			if (score >= scoreLimit)
+			else if (score >= scoreLimit)
 			{
 				scoreLimit += 8;
 				SpawnCoins();
