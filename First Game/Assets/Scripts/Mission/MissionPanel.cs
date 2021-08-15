@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class MissionPanel : MonoBehaviour
 {
-	public Text _missionDescriptionText;
 	public GameObject _missionPanel;
+	public Text _missionDescriptionText;
+	public Button disableMissionPanel;
+
 	public static Text missionDescriptionText;
 	public static GameObject missionPanel;
-	public Button disableMissionPanel;
 	private void Awake()
 	{
 		missionPanel = _missionPanel;
@@ -17,7 +18,6 @@ public class MissionPanel : MonoBehaviour
 	}
 	public void DisablePanel()
 	{
-		Debug.Log("Sosat");
 		missionPanel.SetActive(false);
 	}
 }

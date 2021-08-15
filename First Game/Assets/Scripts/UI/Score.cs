@@ -4,24 +4,36 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+	public static Score scoreSingleton { get; private set; }
 	public delegate void powerUpAction();
 	public event powerUpAction powerUpSpawn;
-	public static Score scoreSingleton { get; private set; }
+
 	public UILineRenderer line;
+
 	public Transform[] routes;
 	public List<GameObject> points = new List<GameObject>();
+
 	public Text scoreText;
 	public Text highScoreText;
+
 	public GameObject rocketManager;
+
 	public int score = 0;
 	public int scoreMultiplier = 1;
+	public int finalScore;
+
+	public GameObject nextLevelPanel;
+	public PowerUpManager powerUpManager;
+
 	private AttackManager rocketPool;
 	[SerializeField] private GameObject scorePoint;
-	public PowerUpManager powerUpManager;
-	private int powerUpPermission = 2;
-	public int endScore;
-	public GameObject nextLevelPanel;
+	private int powerUpPermission = 5;
 	private int scoreLimit = 8;
+
+	[Header("Sounds")]
+	public AudioClip win;
+	public AudioClip coin;
+	private AudioSource audio;
 	private void Awake()
 	{
 		scoreSingleton = this;
@@ -31,6 +43,7 @@ public class Score : MonoBehaviour
 		PlayerPrefs.GetInt("Money", 0);
 		PlayerPrefs.GetInt("HighScore", 0);
 
+		audio = GetComponent<AudioSource>();
 		rocketPool = rocketManager.GetComponent<AttackManager>();
 		for (int i = 0; i < 8; i++)
 		{
@@ -43,7 +56,7 @@ public class Score : MonoBehaviour
 	{
 		if (score > powerUpPermission)
 		{
-			powerUpPermission += 3;
+			powerUpPermission += 10;
 			powerUpSpawn?.Invoke();
 		}
 	}
@@ -78,7 +91,7 @@ public class Score : MonoBehaviour
 	{
 		rocketPool.scorePoints += scoreMultiplier;
 		score += scoreMultiplier;
-		scoreText.text = "Score: " + score.ToString() + "/" + endScore.ToString();
+		scoreText.text = "Score: " + score.ToString() + "/" + finalScore.ToString();
 	}
 	public void ShowHighScore()
 	{
@@ -92,17 +105,21 @@ public class Score : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("ScorePoint"))
 		{
+			audio.clip = coin;
+			audio.Play();
 			line.AddValue(1f, 1.5f);
 			AddScore();
 			other.gameObject.SetActive(false);
-			PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
-			if (score >= endScore)
+			if (score >= finalScore)
 			{
+				audio.clip = win;
+				audio.Play();
+				PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
 				Time.timeScale = 0f;
 				nextLevelPanel.SetActive(true);
 				PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 			}
-			if (score >= scoreLimit)
+			else if (score >= scoreLimit)
 			{
 				scoreLimit += 8;
 				SpawnCoins();

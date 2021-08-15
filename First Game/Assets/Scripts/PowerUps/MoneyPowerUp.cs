@@ -4,7 +4,7 @@ public class MoneyPowerUp : PowerUp
 	private int addMoney;
 	private void Awake()
 	{
-		addMoney = PlayerPrefs.GetInt("AddMoney", 5);
+		addMoney = PlayerPrefs.GetInt("AddMoney", 3);
 	}
 	protected override void Action()
 	{

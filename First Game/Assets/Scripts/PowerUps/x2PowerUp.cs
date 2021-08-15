@@ -6,7 +6,7 @@ public class x2PowerUp : PowerUp
 {
 	private void Awake()
 	{
-		lifeTime = PlayerPrefs.GetFloat("x2", 5);
+		lifeTime = PlayerPrefs.GetFloat("x2", 3);
 	}
 	protected override void Action()
 	{

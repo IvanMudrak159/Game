@@ -13,10 +13,10 @@ public class AttackManager : MonoBehaviour
 {
 	#region Variables
 	//Score
-	public int scorePoints = 0;
+	[HideInInspector] public int scorePoints = 0;
 	//Default shooting
 	private bool standart = false;
-	public bool coroutineAllowed = true;
+	private bool coroutineAllowed = true;
 	public List<Rigidbody> rocketsRigidbodies;
 	private float angle;
 	public PlayerMovement playerMovement;
@@ -127,6 +127,7 @@ public class AttackManager : MonoBehaviour
 			transform.rotation = rotation;
 			rocketsRigidbodies[0].AddForce(transform.right * force);
 			rocketsRigidbodies.Remove(rocketsRigidbodies[0]);
+			//Debug.Log("Rocket[" + rocketsRigidbodies[0].gameObject + "has been removed");
 			attackPlayer = 0;
 			addRandom = 1;
 			yield return new WaitForSeconds(0.115f);

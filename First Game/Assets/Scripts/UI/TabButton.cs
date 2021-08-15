@@ -16,6 +16,8 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 	public UnityEvent onTabDeselected;
 
 	public Color IdleColor;
+	public Color ActiveColor;
+
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		tabGroup.OnTabSelected(this);
