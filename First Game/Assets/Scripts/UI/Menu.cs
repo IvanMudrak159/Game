@@ -63,10 +63,7 @@ public class Menu : MonoBehaviour
 	{
 		PlayerPrefs.SetInt(key, PlayerPrefs.GetInt(key, 0) + 1);
 	}
-	public void EnableButton()
-	{
 
-	}
 	public void PauseButton()
 	{
 		click++;
@@ -103,7 +100,11 @@ public class Menu : MonoBehaviour
 	}
 	public void ReloadButton()
 	{
-		SceneManager.LoadScene(PlayerPrefs.GetInt("Level") + 2);
+		SceneManager.LoadScene(PlayerPrefs.GetInt("Level") + 3);
+	}
+	public void Delete()
+	{
+		PlayerPrefs.DeleteAll();
 	}
 	public void StartGame()
 	{

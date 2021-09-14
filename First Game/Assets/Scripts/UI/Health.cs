@@ -56,9 +56,9 @@ public class Health : MonoBehaviour
 			else
 			{
 				audio.clip = death;
-				if(Random.Range(0f, 1f) > 0.7f)
+				if (Random.Range(0f, 1f) > 0.85f && PlayerPrefs.GetInt("NoAds", 0) == 0)
 				{
-				AdManager.ShowAdsVideo("Interstitial_Android");
+					AdManager.ShowAdsVideo("Interstitial_Android");
 				}
 				deathPanel.SetActive(true);
 				PlayerPrefs.SetInt("Money", GetComponent<Score>().score + PlayerPrefs.GetInt("Money"));

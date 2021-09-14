@@ -26,15 +26,36 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     }
     public static void ShowAdsVideo(string placementId)
     {
-        if (Advertisement.IsReady())
+        if (PlayerPrefs.GetInt("NoAds", 0) == 0)
         {
-            Advertisement.Show(placementId);
+            if (Advertisement.IsReady())
+            {
+                Advertisement.Show(placementId);
+            }
+            else
+            {
+                Debug.Log("Advertisement not ready!");
+            }
         }
-        else
-        {
-            Debug.Log("Advertisement not ready!");
-        }
-    }
+		else
+		{
+			GetReward(placementId);
+		}
+	}
+
+	private static void GetReward(string placementId)
+	{
+		switch (placementId)
+		{
+			case Extra_Life:
+				ExtraLife?.Invoke();
+				break;
+			case Add_Coins:
+				AddCoins?.Invoke();
+				break;
+		}
+	}
+
 	public void OnUnityAdsDidError(string message)
     {
     }
@@ -43,15 +64,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     {
         if (showResult == ShowResult.Finished)
         {
-            switch (placementId)
-            {
-                case Extra_Life:
-                    ExtraLife?.Invoke();
-                    break;
-                case Add_Coins:
-                    AddCoins?.Invoke();
-                    break;
-            }
+            GetReward(placementId);
         }
     }
 
